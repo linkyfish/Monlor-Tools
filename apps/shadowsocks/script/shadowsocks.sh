@@ -410,7 +410,7 @@ status() {
 	fi
 	result2=$(iptables -t nat -S | grep -c SHADOWSOCK)
 	if [ "$result1" -ge 3 ]; then
-		if [ "$result2" -ge 12 ]; then
+		if [ "$result2" -ge 10 ]; then
 			echo "ss节点: $id($ss_mode)$ssgflag" 
 			echo "1"
 		else
