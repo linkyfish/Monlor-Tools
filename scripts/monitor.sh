@@ -37,6 +37,16 @@ if [ -f "/etc/config/monlor" ]; then
 	fi
 fi
 
+#检查外接盘变化
+if [ "$model" == "mips" ]; then
+	userdisk2=$(df|awk '/\/extdisks\/sd[a-z][0-9]?$/{print $6;exit}')
+	if [ "$userdisk" != "$userdisk2" ]; then
+		userdisk="$userdisk2"
+		uci set monlor.tools.userdisk="$userdisk"
+		uci commit monlor
+	fi
+fi
+
 #检查CPU占用100%问题
 # result=$(top -n1 -b | grep ustackd | awk '{print$9}')
 # if [ ! -z "$result" ]; then
