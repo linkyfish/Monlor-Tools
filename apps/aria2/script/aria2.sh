@@ -40,7 +40,7 @@ set_config() {
 	[ ! -d "$path" ] && mkdir -p $path
 
 	#R3加载库文件
-	[ "$model" == "R3" ] && export LD_LIBRARY_PATH=$monlorpath/apps/$appname/lib:/usr/lib:/lib
+	[ "$xq" == "R3" ] && export LD_LIBRARY_PATH=$monlorpath/apps/$appname/lib:/usr/lib:/lib
 
 	if [ ! -d /www/$appname ]; then
 		logsh "【$service】" "生成$appname本地web页面"
