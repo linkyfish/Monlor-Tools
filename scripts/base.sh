@@ -200,14 +200,3 @@ cru() {
 	return 0
 
 }
-
-# arrays() {
-
-# 	local content="$1"
-# 	[ ! -d /tmp/monlorarrays ] && mkdir -p /tmp/monlorarrays
-# 	result=$(echo $content | grep -c "^[0-9][0-9]*$")
-# 	if [ "$result" == '0' ]; then
-		
-# 	fi
-
-# }
