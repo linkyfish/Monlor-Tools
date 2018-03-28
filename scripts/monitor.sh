@@ -40,7 +40,7 @@ fi
 #检查外接盘变化
 if [ "$model" == "mips" ]; then
 	userdisk2=$(df|awk '/\/extdisks\/sd[a-z][0-9]?$/{print $6;exit}')
-	if [ "$userdisk" != "$userdisk2" ]; then
+	if [ ! -z "$userdisk2" ] && [ "$userdisk" != "$userdisk2" ]; then
 		userdisk="$userdisk2"
 		uci set monlor.tools.userdisk="$userdisk"
 		uci commit monlor
