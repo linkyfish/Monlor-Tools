@@ -90,11 +90,11 @@ if [ "$xunlei_disable" == '1' ]; then
 	fi
 fi
 
-logsh "【Tools】" "检查ssh外网访问配置"
-ssh_enabled=$(iptables -S | grep -c "monlor-ssh")
-if [ "$ssh_enabled" == '0' ]; then
-	iptables -I INPUT -p tcp --dport 22 -m comment --comment "monlor-ssh" -j ACCEPT > /dev/null 2>&1
-fi
+# logsh "【Tools】" "检查ssh外网访问配置"
+# ssh_enabled=$(iptables -S | grep -c "monlor-ssh")
+# if [ "$ssh_enabled" == '0' ]; then
+# 	iptables -I INPUT -p tcp --dport 22 -m comment --comment "monlor-ssh" -j ACCEPT > /dev/null 2>&1
+# fi
 
 # 禁止更新
 no_update=$(uci -q get monlor.tools.no_update)
