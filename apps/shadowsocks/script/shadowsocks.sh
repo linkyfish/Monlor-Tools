@@ -177,16 +177,18 @@ load_nat() {
 	[ "$ssg_enable" == '1' ] && iptables -t mangle -A SHADOWSOCKS -p udp -j $(get_action_chain $ss_acl_default_mode)
 	[ ! -f $customize_black ] && touch $customize_black
 	[ ! -f $customize_white ] && touch $customize_white
-
+	rm -rf /tmp/customize_*.conf
 	cat $customize_black | while read line                                                                   
 	do                                                                                              
-		echo "server=/.$line/127.0.0.1#15353" >> /etc/dnsmasq.d/customize_black.conf  
-		echo "ipset=/.$line/customize_black" >> /etc/dnsmasq.d/customize_black.conf                     
+		echo "server=/.$line/127.0.0.1#15353" >> /tmp/customize_black.conf  
+		echo "ipset=/.$line/customize_black" >> /tmp/customize_black.conf                     
 	done
+	ln -s /tmp/customize_black.conf /etc/dnsmasq.d/customize_black.conf
 	cat $customize_white | while read line
 	do
-		echo "ipset=/.$line/customize_white" >> /etc/dnsmasq.d/customize_white.conf
-	done                                                                  
+		echo "ipset=/.$line/customize_white" >> /tmp/customize_white.conf
+	done              
+	ln -s /tmp/customize_white.conf /etc/dnsmasq.d/customize_white.conf                                                 
 	ipset -N customize_black iphash -!  
 	ipset -N customize_white iphash -!	
 	iptables -t nat -A SHADOWSOCK -p tcp -m set --match-set customize_white dst -j RETURN
@@ -288,11 +290,13 @@ start() {
 ss_gfwlist() {
 
 	logsh "【$service】" "添加国外黑名单规则..."
+	rm -rf /tmp/gfwlist_ipset.conf
 	cat $gfwlist | while read line                                             
 	do                                                                         
-		echo "server=/.$line/127.0.0.1#15353" >> /etc/dnsmasq.d/gfwlist_ipset.conf
-		echo "ipset=/.$line/gfwlist" >> /etc/dnsmasq.d/gfwlist_ipset.conf  
+		echo "server=/.$line/127.0.0.1#15353" >> /tmp/gfwlist_ipset.conf
+		echo "ipset=/.$line/gfwlist" >> /tmp/gfwlist_ipset.conf  
 	done    
+	ln -s /tmp/gfwlist_ipset.conf /etc/dnsmasq.d/gfwlist_ipset.conf
 	ipset -N gfwlist iphash -!
 	iptables -t nat -A SHADOWSOCK -p tcp -m set --match-set customize_black dst -j REDIRECT --to-port 1081
 	iptables -t nat -A SHADOWSOCK -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-port 1081
@@ -386,6 +390,8 @@ stop_ss_rules() {
 	rm -rf $DNSCONF
 	rm -rf $SSGCONF
 	rm -rf $SSGBIN
+	rm -rf /tmp/customize_*.conf
+	rm -rf /tmp/gfwlist_ipset.conf
 	rm -rf /etc/dnsmasq.d/gfwlist_ipset.conf > /dev/null 2>&1
 	rm -rf /etc/dnsmasq.d/customize_*.conf > /dev/null 2>&1
 	# /etc/init.d/dnsmasq restart
