@@ -13,4 +13,4 @@ a293672288673550d6a9fa58cde4981d  ./webshell.tar.gz
 2553e8931d96ab30b0f2c0eb12c10964  ./firewall.tar.gz
 MD5 (./verysync.tar.gz) = 72a85b70825497890b1332fcf7d9ba8e
 eb50a20a138d66d2e9118488a8c62286 *./shadowsocks.tar.gz
-070fb7d335f7529b16c9d722a81d0cdb *./aria2.tar.gz
+a79580c1fc4bad807e258abfbec46aab *./aria2.tar.gz
