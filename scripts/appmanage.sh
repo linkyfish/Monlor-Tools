@@ -49,8 +49,8 @@ add() {
 				#是文件夹
 				[ -d /tmp/$appname/bin/$line ] && continue
 				#判断特定型号
-				if [ -f /tmp/$appname/bin/"$line"_"$xq" ]; then
-					mv -f /tmp/$appname/bin/"$line"_"$xq" /tmp/$appname/bin/"$line"
+				if [ -f /tmp/$appname/bin/"$line"*_"$xq"* ]; then
+					mv -f /tmp/$appname/bin/"$line"*_"$xq"* /tmp/$appname/bin/"$line"
 				else
 					#判断是否有mips文件
 					[ -f /tmp/$appname/bin/"$line"_mips ] && mv -f /tmp/$appname/bin/"$line"_mips /tmp/$appname/bin/"$line"

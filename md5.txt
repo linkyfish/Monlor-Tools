@@ -12,5 +12,5 @@ b87f415bb48d7b43f0a10086d685bfa3  ./tinyproxy.tar.gz
 a293672288673550d6a9fa58cde4981d  ./webshell.tar.gz
 2553e8931d96ab30b0f2c0eb12c10964  ./firewall.tar.gz
 MD5 (./verysync.tar.gz) = 72a85b70825497890b1332fcf7d9ba8e
-eb50a20a138d66d2e9118488a8c62286 *./shadowsocks.tar.gz
 a79580c1fc4bad807e258abfbec46aab *./aria2.tar.gz
+fac0a5e6a12c8b4ccc8c3773bf517c80 *./shadowsocks.tar.gz
