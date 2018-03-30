@@ -1,6 +1,5 @@
 92ab072ad55714018b7af846fe21a207 *./aria2.tar.gz
 a7dd1f0be6bb056407947b071e5d2a74 *./easyexplorer.tar.gz
-7fe2409e1191847eea878e72f192aacb *./entware.tar.gz
 aaa8a9c526624407394e52a68309aecd *./fastdick.tar.gz
 ca495aaa4eb9a19efc89eb1458b69f12 *./firewall.tar.gz
 6c609d44c0bb170ca96cddfdbf2b101c *./frpc.tar.gz
@@ -14,3 +13,4 @@ aae44ece58d1bed9d3243e1797b60c2c *./tinyproxy.tar.gz
 719db75c7faef4ff5ea339abc7a996df *./verysync.tar.gz
 b9dae2b7942003f4c63875d22d489c23 *./vsftpd.tar.gz
 e5b3e6698a16b0bbe7683902e639fcaa *./webshell.tar.gz
+418352f9b352c46fc12ee0d6c2e06af0 *./entware.tar.gz

@@ -115,9 +115,13 @@ status() {
 
 	result1=$(cat /etc/profile | grep -c "/opt/lib")
 	result2=$(cat /etc/profile | grep -c /opt/sbin)
+	result3=$(which opkg)
 	if [ ! -f $BIN ] || [ -z $path ] || [ "$result1" == '0' ] || [ "$result2" == '0' ]; then
 		echo "未运行"
 		echo "0"
+	elif [ "$result3" != "/opt/bin/opkg" ]; then
+		echo "请运行source /etc/profile使$appname生效"
+		echo "1"
 	else
 		echo "安装路径: $path"
 		echo "1"
