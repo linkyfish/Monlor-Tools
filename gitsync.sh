@@ -60,12 +60,12 @@ pack() {
 		if [ "$name" == "all" ]; then
 			ls | while read line 
 			do
-				vapp $line
+				[ "$2" == "-v" ] && vapp $line
 				tar -zcvf $line.tar.gz $line/
 			done 
 			$md5 ./*.tar.gz > ../md5.txt
 		else
-			vapp $name
+			[ "$2" == "-v" ] && vapp $name
 			tar -zcvf $name.tar.gz $name/
 			if [ "`uname -s`" == "Darwin" ]; then
 				sed -i "" "/$name/d" ../md5.txt
@@ -136,7 +136,7 @@ case $1 in
 		;;
 	pack) 
 		[ "$2" == "-v" -o "$3" == "-v" ] && vtools
-		[ "$2" == "-v" ] && pack || pack $2
+		[ "$2" == "-v" ] && pack || pack $2 $3
 		;;
 	test)
 		localgit
