@@ -10,7 +10,7 @@ a08d0b1fbc8eed2360fa638e047e71d8 *./kms.tar.gz
 a87ca51d853cdbee100d366b24f8d0ce *./shadowsocks.tar.gz
 aae44ece58d1bed9d3243e1797b60c2c *./tinyproxy.tar.gz
 719db75c7faef4ff5ea339abc7a996df *./verysync.tar.gz
-b9dae2b7942003f4c63875d22d489c23 *./vsftpd.tar.gz
 e5b3e6698a16b0bbe7683902e639fcaa *./webshell.tar.gz
 418352f9b352c46fc12ee0d6c2e06af0 *./entware.tar.gz
 eecab099626f87a27658b4f8f0dfe8b9 *./aria2.tar.gz
+75bc2edde04d60c3804dfa83db1f2975 *./vsftpd.tar.gz

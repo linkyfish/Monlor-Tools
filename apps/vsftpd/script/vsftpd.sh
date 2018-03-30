@@ -65,6 +65,8 @@ set_config() {
 		[ ! -d $anon_root ] && mkdir -p $anon_root
 		[ ! -d $anon_root/Share ] && mkdir -p $anon_root/Share
 		chmod 755 $anon_root
+		dirmod=$(ls -ld $anon_root | cut -d' ' -f1)
+		[ "$dirmod" == "drwxrwxrwx" ] && logsh "【$service】" "匿名访问开启失败，此目录不支持！"
 		chmod 777 $anon_root/Share
 		del ftp && add ftp 123 $anon_root
 	else
