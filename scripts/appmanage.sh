@@ -45,9 +45,9 @@ add() {
 		elif [ "$model" == "mips" ]; then
 			ls /tmp/$appname/bin | grep -v ".*_.*" | while read line
 			do
-				rm -rf /tmp/$appname/bin/"$line"
 				#是文件夹
 				[ -d /tmp/$appname/bin/$line ] && continue
+				rm -rf /tmp/$appname/bin/"$line"
 				#判断特定型号
 				if [ -f /tmp/$appname/bin/"$line"*_"$xq"* ]; then
 					mv -f /tmp/$appname/bin/"$line"*_"$xq"* /tmp/$appname/bin/"$line"
