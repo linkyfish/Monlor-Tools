@@ -198,6 +198,9 @@ menu() {
 	newver=$(cat /tmp/version/tools.txt) > /dev/null 2>&1
 	oldver=$(cat $monlorpath/config/version.txt)
 	echo "当前版本：$oldver 最新版本：$newver"
+	[ -f /proc/dmu/temperature ] && temp="`cat /proc/dmu/temperature | awk '{printf$4}' | cut -b 1-2`°C"
+	[ ! -z "$temp" ] && temptext="CPU温度：$temp" || temptext="上网方式：`nvram get nv_wan_type`"
+	echo "设备型号：$model $temptext"
 	echo 
 	[ ! -f "$Applist".txt ] && echo "[未找到插件列表，工具箱异常！]" && exit
 	echo "0. 管理菜单(Ctrl + c退出)"
