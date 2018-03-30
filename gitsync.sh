@@ -38,25 +38,28 @@ vapp() {
 }
 
 pack() {
-	rm -rf monlor/
-	rm -rf monlor.tar.gz
-	mkdir -p monlor/apps/
-	cp -rf config/ monlor/config
-	cp -rf scripts/ monlor/scripts
-	#test
-	# cp install.sh install_test.sh
-	# if [ "`uname -s`" == "Darwin" ]; then
-	# 	sed -i "" 's/Monlor-Tools/Monlor-Test/' install_test.sh
-	# else 
-	# 	sed -i 's/Monlor-Tools/Monlor-Test/' install_test.sh
-	# fi
-	tar -zcvf monlor.tar.gz monlor/
-	mv -f monlor.tar.gz appstore/
-	rm -rf monlor/
-	#pack app
-	cd apps/
 	local name="$1"
-	if [ ! -z "$name" ]; then
+	if [ -z "$name" -o "$name" == "-v" -o "$name" == "all" ]; then
+		[ "$name" == "-v" -o "$2" == "-v" ] && vtools
+		rm -rf monlor/
+		rm -rf monlor.tar.gz
+		mkdir -p monlor/apps/
+		cp -rf config/ monlor/config
+		cp -rf scripts/ monlor/scripts
+		#test
+		# cp install.sh install_test.sh
+		# if [ "`uname -s`" == "Darwin" ]; then
+		# 	sed -i "" 's/Monlor-Tools/Monlor-Test/' install_test.sh
+		# else 
+		# 	sed -i 's/Monlor-Tools/Monlor-Test/' install_test.sh
+		# fi
+		tar -zcvf monlor.tar.gz monlor/
+		mv -f monlor.tar.gz appstore/
+		rm -rf monlor/
+	fi
+	if [ ! -z "$name" -a "$name" != "-v" ]; then
+		#pack app
+		cd apps/
 		if [ "$name" == "all" ]; then
 			ls | while read line 
 			do
@@ -135,8 +138,7 @@ case $1 in
 		coding
 		;;
 	pack) 
-		[ "$2" == "-v" -o "$3" == "-v" ] && vtools
-		[ "$2" == "-v" ] && pack || pack $2 $3
+		pack $2 $3
 		;;
 	test)
 		localgit

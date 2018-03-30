@@ -12,7 +12,7 @@ title() {
 	echo "***************************************"
 	echo "   *****  Monlor Tools工具箱  *****"
 	echo "***************************************"
-	newver=$(cat /tmp/version/tools.txt) > /dev/null 2>&1
+	newver=$(cat /tmp/version/tools.txt) > /dev/null 2>&1 || newver="获取中"
 	oldver=$(cat $monlorpath/config/version.txt)
 	echo -e "当前版本：[$oldver]\t最新版本：[$newver]"
 	[ -f /proc/dmu/temperature ] && temp="`cat /proc/dmu/temperature | awk '{printf$4}' | cut -b 1-2`°C"
@@ -214,8 +214,8 @@ menu() {
 		fi
 	done
 	echo
-	compare $newver $oldver && echo "[检测到工具箱新版本，输入u即可更新]"
-	read -p "请输入你的选择(exit退出)：" select
+	compare $newver $oldver && tmptext="[输入u更新工具箱]"
+	read -p "请输入你的选择$tmptext：" select
 	echo
 	[ "$select" == "exit" ] && exit
 	[ -z "$select" ] && exit
