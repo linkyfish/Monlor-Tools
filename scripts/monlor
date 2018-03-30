@@ -6,12 +6,18 @@ monlorpath=$(uci -q get monlor.tools.path)
 param=$1
 Applist=$monlorpath/config/applist
 
-manage() {
+title() {
 
 	clear
 	echo "************************************"
 	echo "   ***** Monlor Tools工具箱 *****"
 	echo "************************************"
+
+}
+
+manage() {
+
+	title
 	echo
 	echo "0. 返回主菜单"
 	newver=$(cat /tmp/version/tools.txt) > /dev/null 2>&1
@@ -190,20 +196,17 @@ menu() {
 	
 	while(true)
 	do
-	i=0;
-	clear
-	echo "********************************"
-	echo "  **** Monlor Tools工具箱 ****"
-	echo "********************************"
+	title
 	newver=$(cat /tmp/version/tools.txt) > /dev/null 2>&1
 	oldver=$(cat $monlorpath/config/version.txt)
 	echo "当前版本：$oldver 最新版本：$newver"
 	[ -f /proc/dmu/temperature ] && temp="`cat /proc/dmu/temperature | awk '{printf$4}' | cut -b 1-2`°C"
-	[ ! -z "$temp" ] && temptext="CPU温度：$temp" || temptext="上网方式：`nvram get nv_wan_type`"
-	echo "设备型号：$model $temptext"
+	[ ! -z "$temp" ] && temptext="核心温度：$temp" || temptext="上网方式：`nvram get nv_wan_type`"
+	echo "设备型号：$xq   $temptext"
 	echo 
 	[ ! -f "$Applist".txt ] && echo "[未找到插件列表，工具箱异常！]" && exit
 	echo "0. 管理菜单(Ctrl + c退出)"
+	i=0;
 	cat $Applist* | while read line
 	do
 		if [ ! -z $line ]; then
