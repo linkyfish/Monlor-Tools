@@ -111,7 +111,8 @@ if [ "$ins_method" == '0' ]; then
 	if [ ! -d /tmp/monlorapps ]; then
 		mkdir -p /tmp/monlorapps > /dev/null 2>&1
 		mount --bind /tmp/monlorapps $monlorpath/apps
-		monlor recover > /dev/null 2>&1 
+		sleep 10
+		$monlorpath/scripts/monlor recover
 	fi
 	# [ $? -eq 1 ] && logsh "【Tools】" "内存安装恢复数据失败！"
 fi
