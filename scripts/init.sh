@@ -105,6 +105,15 @@ else
 	echo "15 3,4,5 * * * /usr/sbin/otapredownload >/dev/null 2>&1" >> /etc/crontabs/root
 fi
 
+# 检查内存安装方式
+ins_method=$(uci -q get monlor.tools.ins_method)
+if [ "$ins_method" == '0' ]; then
+	mkdir -p /tmp/monlorapps > /dev/null 2>&1
+	mount --bind /tmp/monlorapps $monlorpath/apps
+	monlor recover > /dev/null 2>&1 
+	# [ $? -eq 1 ] && logsh "【Tools】" "内存安装恢复数据失败！"
+fi
+
 logsh "【Tools】" "运行用户自定义脚本"
 $monlorpath/scripts/userscript.sh
 

@@ -121,46 +121,16 @@ manage() {
 				read -p "确定要备份所有插件配置吗？[1/0] " res
 			fi
 			if [ "$res" == '1' ]; then
-				rm -rf $monlorbackup
-				rm -rf "$monlorbackup".tar.gz
-				mkdir -p $monlorbackup
-				ls $monlorpath/apps | while read line 
-				do
-					$monlorpath/apps/$line/script/$line.sh backup
-				done
-				cp -rf /etc/config/monlor $monlorbackup/monlor.uci
-				cp -rf $monlorpath/scripts/userscript.sh $monlorbackup/userscript.sh
-				sed -i '/option userdisk/d' $monlorbackup/monlor.uci
-				sed -i '/path.*monlor/d' $monlorbackup/monlor.uci
-				tar zcvf "$monlorbackup".tar.gz $monlorbackup > /dev/null 2>&1
-				rm -rf $monlorbackup
-				echo "备份完成, 配置已备份至$monlorbackup.tar.gz"
+				backup
 			fi
 		;;
 		8)
-			if [ -f "$monlorbackup".tar.gz ]; then
-				read -p "确定要恢复所有插件配置吗(将会覆盖当前配置)？[1/0] " res
-				if [ "$res" == '1' ]; then
-					rm -rf $monlorbackup
-					tar zxvf "$monlorbackup".tar.gz -C / > /dev/null 2>&1
-					ls $monlorbackup | while read line 
-					do
-						[ -f $monlorbackup/$line ] && continue
-						checkuci $line || appmanage.sh add $line -f
-						$monlorpath/apps/$line/script/$line.sh recover
-					done
-					# 恢复uci配置
-					cp -rf $monlorbackup/monlor.uci /etc/config/monlor
-					cp -rf $monlorbackup/userscript.sh $monlorpath/scripts/userscript.sh
-					rm -rf $monlorbackup
-					echo "恢复完成, 初始化工具箱..."
-					$monlorpath/scripts/init.sh
-				fi
-				
-				
-			else
-				echo "未找到备份！"
+			
+			read -p "确定要恢复所有插件配置吗(将会覆盖当前配置)？[1/0] " res
+			if [ "$res" == '1' ]; then
+				recover
 			fi
+
 		;;
 		9)
 			echo "1. coding下载源"
@@ -279,10 +249,52 @@ check_update() {
 
 }
 
+backup() {
+
+	rm -rf $monlorbackup
+	rm -rf "$monlorbackup".tar.gz
+	mkdir -p $monlorbackup
+	ls $monlorpath/apps | while read line 
+	do
+		$monlorpath/apps/$line/script/$line.sh backup
+	done
+	cp -rf /etc/config/monlor $monlorbackup/monlor.uci
+	cp -rf $monlorpath/scripts/userscript.sh $monlorbackup/userscript.sh
+	sed -i '/option userdisk/d' $monlorbackup/monlor.uci
+	sed -i '/path.*monlor/d' $monlorbackup/monlor.uci
+	tar zcvf "$monlorbackup".tar.gz $monlorbackup > /dev/null 2>&1
+	rm -rf $monlorbackup
+	echo "备份完成, 配置已备份至$monlorbackup.tar.gz"
+
+}
+
+recover() {
+
+	[ ! -f "$monlorbackup".tar.gz ] && echo "未找到备份文件！" && return 1
+	rm -rf $monlorbackup
+	tar zxvf "$monlorbackup".tar.gz -C / > /dev/null 2>&1
+	ls $monlorbackup | while read line 
+	do
+		[ -f $monlorbackup/$line ] && continue
+		checkuci $line || appmanage.sh add $line -f
+		$monlorpath/apps/$line/script/$line.sh recover
+	done
+	# 恢复uci配置
+	cp -rf $monlorbackup/monlor.uci /etc/config/monlor
+	cp -rf $monlorbackup/userscript.sh $monlorpath/scripts/userscript.sh
+	rm -rf $monlorbackup
+	echo "恢复完成, 初始化工具箱..."
+	$monlorpath/scripts/init.sh
+	return 0
+
+}
+
 #------------------【Tools】--------------------
 if [ ! -z $param ]; then 
-	source $monlorpath/apps/$param/config/monlor.conf
+	[ -f $monlorpath/apps/$param/config/monlor.conf ] && source $monlorpath/apps/$param/config/monlor.conf
 	$param
 else 
 	menu
 fi
+
+[ "`uci -q get monlor.tools.ins_method`" == '0' ] && backup > /dev/null 2>&1
