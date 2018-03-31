@@ -129,6 +129,8 @@ manage() {
 			read -p "确定要恢复所有插件配置吗(将会覆盖当前配置)？[1/0] " res
 			if [ "$res" == '1' ]; then
 				recover
+				echo "恢复完成, 初始化工具箱..."
+				$monlorpath/scripts/init.sh
 			fi
 
 		;;
@@ -284,8 +286,6 @@ recover() {
 	cp -rf $monlorbackup/monlor.uci /etc/config/monlor
 	cp -rf $monlorbackup/userscript.sh $monlorpath/scripts/userscript.sh
 	rm -rf $monlorbackup
-	echo "恢复完成, 初始化工具箱..."
-	$monlorpath/scripts/init.sh
 	return 0
 
 }
