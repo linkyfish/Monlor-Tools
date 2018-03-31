@@ -109,12 +109,13 @@ fi
 ins_method=$(uci -q get monlor.tools.ins_method)
 if [ "$ins_method" == '0' ]; then
 	if [ ! -d /tmp/monlorapps ]; then
+		logsh "【Tools】" "内存安装，正在恢复数据..."
 		mkdir -p /tmp/monlorapps > /dev/null 2>&1
 		mount --bind /tmp/monlorapps $monlorpath/apps
-		sleep 10
+		sleep 60
 		$monlorpath/scripts/monlor recover
+		[ $? -ne 0 ] && logsh "【Tools】" "内存安装恢复数据失败！"
 	fi
-	# [ $? -eq 1 ] && logsh "【Tools】" "内存安装恢复数据失败！"
 fi
 
 logsh "【Tools】" "运行用户自定义脚本"
