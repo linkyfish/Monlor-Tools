@@ -45,12 +45,14 @@ if [ "$xunlei_enable" == '1' ]; then
 	logsh "【Tools】" "检测到迅雷被关闭，正在恢复，重启后生效"
 	[ ! -f /usr/sbin/xunlei.sh ] && mv /usr/sbin/xunlei.sh.bak /usr/sbin/xunlei.sh
 fi
+# 内存安装方式 取消挂载
+ins_method=$(uci -q get monlor.tools.ins_method)
+[ "$ins_method" == '0' ] && umount -lf $monlorpath/apps && rm -rf /tmp/monlorapps
 
 if [ -f "/etc/config/monlor" ]; then
 	rm -rf /etc/config/monlor
 fi
 
 logsh "【Tools】" "See You!"
-ins_method=$(uci -q get monlor.tools.ins_method)
-[ "$ins_method" == '0' ] && umount -lf $monlorpath/apps && rm -rf /tmp/monlorapps
+
 rm -rf $monlorpath
