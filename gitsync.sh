@@ -41,6 +41,15 @@ pack() {
 	local name="$1"
 	if [ -z "$name" -o "$name" == "-v" -o "$name" == "all" ]; then
 		[ "$name" == "-v" -o "$2" == "-v" ] && vtools
+		rm -rf version/
+		rm -rf version.tar.gz
+		mkdir version
+		ls apps/ | while read line
+		do
+			cp apps/$line/config/version.txt version/$line.txt
+		done
+		tar -zcvf version.tar.gz version/
+		rm -rf version/
 		rm -rf monlor/
 		rm -rf monlor.tar.gz
 		mkdir -p monlor/apps/
