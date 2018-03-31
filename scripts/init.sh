@@ -79,7 +79,6 @@ logsh "【Tools】" "运行工具箱监控脚本"
 $monlorpath/scripts/monitor.sh
 
 logsh "【Tools】" "获取工具箱版本信息"
-sleep 10
 $monlorpath/scripts/getver.sh
 
 xunlei_disable=$(uci -q get monlor.tools.xunlei)
@@ -116,6 +115,7 @@ if [ "$ins_method" == '0' ]; then
 		logsh "【Tools】" "内存安装，正在恢复数据..."
 		mkdir -p /tmp/monlorapps > /dev/null 2>&1
 		mount --bind /tmp/monlorapps $monlorpath/apps
+		sleep 12
 		$monlorpath/scripts/monlor recover
 		[ $? -eq 0 ] && initpath || logsh "【Tools】" "内存安装恢复数据失败！"
 	fi

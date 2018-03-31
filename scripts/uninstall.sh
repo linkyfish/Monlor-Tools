@@ -51,5 +51,6 @@ if [ -f "/etc/config/monlor" ]; then
 fi
 
 logsh "【Tools】" "See You!"
-
+ins_method=$(uci -q get monlor.tools.ins_method)
+[ "$ins_method" == '0' ] && umount -lf $monlorpath/apps && rm -rf /tmp/monlorapps
 rm -rf $monlorpath
