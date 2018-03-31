@@ -279,6 +279,8 @@ recover() {
 	ls $monlorbackup | while read line 
 	do
 		[ -f $monlorbackup/$line ] && continue
+		result=$(cat $Applist* | grep "^$line$")
+		[ -z "$result" ] && continue
 		checkuci $line || $monlorpath/scripts/appmanage.sh add $line -f
 		$monlorpath/apps/$line/script/$line.sh recover
 	done
