@@ -112,12 +112,11 @@ fi
 ins_method=$(uci -q get monlor.tools.ins_method)
 if [ "$ins_method" == '0' ]; then
 	if [ ! -d /tmp/monlorapps ]; then
-		logsh "【Tools】" "内存安装，正在恢复数据..."
 		mkdir -p /tmp/monlorapps > /dev/null 2>&1
 		mount --bind /tmp/monlorapps $monlorpath/apps
 		sleep 12
 		$monlorpath/scripts/monlor recover
-		[ $? -eq 0 ] && initpath || logsh "【Tools】" "内存安装恢复数据失败！"
+		[ $? -eq 0 ] && initpath 
 	fi
 fi
 
