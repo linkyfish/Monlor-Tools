@@ -116,6 +116,7 @@ if [ "$ins_method" == '0' ]; then
 		mount --bind /tmp/monlorapps $monlorpath/apps
 		sleep 12
 		$monlorpath/scripts/monlor recover
+		uci -q set monlor.tools.ins_method=0
 		[ $? -eq 0 ] && initpath 
 	fi
 fi

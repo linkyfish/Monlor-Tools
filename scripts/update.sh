@@ -46,8 +46,14 @@ rm -rf /tmp/monlor/apps
 rm -rf /tmp/monlor/scripts/dayjob.sh
 rm -rf /tmp/monlor/config/monlor.uci
 rm -rf /tmp/monlor/scripts/userscript.sh
-[ "$model" == "arm" ] && rm -rf /tmp/monlor/config/applist_mips.txt
-[ "$model" == "mips" ] && mv -f /tmp/monlor/config/applist_mips.txt /tmp/monlor/config/applist.txt
+if [ "$model" == "mips" ]; then 
+	if [ -f /tmp/monlor/config/applist_"$xq".txt ]; then
+		mv -f /tmp/monlor/config/applist_"$xq".txt /tmp/monlor/config/applist.txt
+	else
+		mv -f /tmp/monlor/config/applist_mips.txt /tmp/monlor/config/applist.txt
+	fi
+fi
+rm -rf /tmp/monlor/config/applist_*.txt
 # 更新版本号(因为强制更新跳过版本号检查不会更新版本号)
 cp -rf /tmp/monlor/config/version.txt /tmp/version/tools.txt
 logsh "【Tools】" "更新工具箱文件"

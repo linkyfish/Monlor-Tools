@@ -70,9 +70,15 @@ curl -skLo /tmp/monlor.tar.gz "$monlorurl"/appstore/monlor.tar.gz
 logsh "【Tools】" "解压工具箱文件"
 tar -zxvf /tmp/monlor.tar.gz -C /tmp > /dev/null 2>&1
 [ $? -ne 0 ] && logsh "【Tools】" "文件解压失败！" && exit
-# 清楚不需要的文件
-[ "$CPU" == "arm" ] && rm -rf /tmp/monlor/config/applist_mips.txt
-[ "$CPU" == "mips" ] && mv -f /tmp/monlor/config/applist_mips.txt /tmp/monlor/config/applist.txt
+# 获取app列表
+if [ "$CPU" == "mips" ]; then 
+	if [ -f /tmp/monlor/config/applist_"$xq".txt ]; then
+		mv -f /tmp/monlor/config/applist_"$xq".txt /tmp/monlor/config/applist.txt
+	else
+		mv -f /tmp/monlor/config/applist_mips.txt /tmp/monlor/config/applist.txt
+	fi
+fi
+rm -rf /tmp/monlor/config/applist_*.txt
 cp -rf /tmp/monlor $monlorpath
 chmod -R +x $monlorpath/*
 logsh "【Tools】" "初始化工具箱..."

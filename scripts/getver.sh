@@ -6,10 +6,13 @@ monlorpath=$(uci -q get monlor.tools.path)
 logsh "【Tools】" "获取版本更新脚本启动..."
 logger -s -t "【Tools】" "获取更新插件列表"
 rm -rf /tmp/applist.txt
-[ "$model" == "arm" ] && applist="applist.txt"
-[ "$model" == "mips" ] && applist="applist_mips.txt"
-wgetsh $monlorpath/config/applist.txt $monlorurl/config/"$applist"
-[ $? -ne 0 ] && logsh "【Tools】" "获取失败，检查网络问题！"
+wgetsh $monlorpath/config/applist.txt $monlorurl/config/applist_"$xq".txt
+if [ $? -ne 0 ]; then
+	[ "$model" == "arm" ] && applist="applist.txt"
+	[ "$model" == "mips" ] && applist="applist_mips.txt"
+	wgetsh $monlorpath/config/applist.txt $monlorurl/config/"$applist"
+	[ $? -ne 0 ] && logsh "【Tools】" "获取失败，检查网络问题！"
+fi
 
 logger -s -t "【Tools】" "获取插件版本信息"
 [ ! -d /tmp/version ] && mkdir -p /tmp/version

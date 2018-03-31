@@ -17,13 +17,17 @@ result2=$(ps | grep {init.sh} | grep -v grep | wc -l)
 samba_path=$(uci -q get monlor.tools.samba_path)
 if [ ! -z "$samba_path" ]; then
 	logger -s -t "【Tools】" "检查samba共享目录配置"
-	result=$(cat /etc/samba/smb.conf | grep -A 5 XiaoMi | grep -w $samba_path | awk '{print$3}')
-	if [ "$result" != "$samba_path" ]; then
-		logsh "【Tools】" "检测到samba路径被修改, 正在设置..."
-		cp /etc/samba/smb.conf /tmp/smb.conf.bak
-		sambaline=$(grep -A 1 -n "XiaoMi" /etc/samba/smb.conf | tail -1 | cut -d- -f1)
-		[ ! -z "$sambaline" ] && sed -i ""$sambaline"s#.*#        path = $samba_path#" /etc/samba/smb.conf
-		[ $? -ne 0 ] && mv /tmp/smb.conf.bak /etc/samba/smb.conf || rm -rf /tmp/smb.conf.bak
+	if [ ! -f /etc/samba/smb.conf ]; then
+		logsh "【Tools】" "未找到samba配置文件！" 
+	else
+		result=$(cat /etc/samba/smb.conf | grep -A 5 XiaoMi | grep -w $samba_path | awk '{print$3}')
+		if [ "$result" != "$samba_path" ]; then
+			logsh "【Tools】" "检测到samba路径被修改, 正在设置..."
+			cp /etc/samba/smb.conf /tmp/smb.conf.bak
+			sambaline=$(grep -A 1 -n "XiaoMi" /etc/samba/smb.conf | tail -1 | cut -d- -f1)
+			[ ! -z "$sambaline" ] && sed -i ""$sambaline"s#.*#        path = $samba_path#" /etc/samba/smb.conf
+			[ $? -ne 0 ] && mv /tmp/smb.conf.bak /etc/samba/smb.conf || rm -rf /tmp/smb.conf.bak
+		fi
 	fi
 fi
 
