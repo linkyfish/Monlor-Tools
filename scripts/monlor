@@ -279,7 +279,7 @@ recover() {
 	ls $monlorbackup | while read line 
 	do
 		[ -f $monlorbackup/$line ] && continue
-		checkuci $line || appmanage.sh add $line -f
+		checkuci $line || $monlorpath/scripts/appmanage.sh add $line -f
 		$monlorpath/apps/$line/script/$line.sh recover
 	done
 	# 恢复uci配置
