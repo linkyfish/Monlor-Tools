@@ -223,6 +223,7 @@ menu() {
 	else
 		echo "输入有误！"
 	fi
+	[ "`uci -q get monlor.tools.ins_method`" == '0' ] && backup > /dev/null 2>&1
 	read -p "返回主菜单？[1/0] " res
 	[ "$res" == '0' ] && exit
 	done
@@ -296,5 +297,3 @@ if [ ! -z $param ]; then
 else 
 	menu
 fi
-
-[ "`uci -q get monlor.tools.ins_method`" == '0' ] && backup > /dev/null 2>&1
