@@ -1,33 +1,36 @@
 #!/bin/ash
 #copyright by monlor
 logger -p 1 -t "【Tools】" "工具箱初始化脚本启动..."
-monlorpath=$(uci -q get monlor.tools.path)
-userdisk=$(uci -q get monlor.tools.userdisk)
-if [ -z "$monlorpath" ] || [ -z "$userdisk" ]; then
-	model=$(cat /proc/xiaoqiang/model)
-	if [ "$model" == "R1D" -o "$model" == "R2D" -o "$model" == "R3D"  ]; then
-		userdisk="/userdisk/data"
-		monlorpath="/etc/monlor"
-	elif [ "$model" == "R3" -o "$model" == "R3P" -o "$model" == "R3G" -o "$model" == "R1CM" ]; then
-		if [ $(df|grep -Ec '\/extdisks\/sd[a-z][0-9]?$') -ne 0 ]; then
-			userdisk=$(df|awk '/\/extdisks\/sd[a-z][0-9]?$/{print $6;exit}')
-			if [ -d "/etc/monlor" ]; then
-				monlorpath="/etc/monlor"
-			else
-				monlorpath=$userdisk/.monlor
-			fi
-		else
-			userdisk="/etc/monlor"
+initpath() {
+	monlorpath=$(uci -q get monlor.tools.path)
+	userdisk=$(uci -q get monlor.tools.userdisk)
+	if [ -z "$monlorpath" ] || [ -z "$userdisk" ]; then
+		model=$(cat /proc/xiaoqiang/model)
+		if [ "$model" == "R1D" -o "$model" == "R2D" -o "$model" == "R3D"  ]; then
+			userdisk="/userdisk/data"
 			monlorpath="/etc/monlor"
+		elif [ "$model" == "R3" -o "$model" == "R3P" -o "$model" == "R3G" -o "$model" == "R1CM" ]; then
+			if [ $(df|grep -Ec '\/extdisks\/sd[a-z][0-9]?$') -ne 0 ]; then
+				userdisk=$(df|awk '/\/extdisks\/sd[a-z][0-9]?$/{print $6;exit}')
+				if [ -d "/etc/monlor" ]; then
+					monlorpath="/etc/monlor"
+				else
+					monlorpath=$userdisk/.monlor
+				fi
+			else
+				userdisk="/etc/monlor"
+				monlorpath="/etc/monlor"
+			fi
 		fi
+		if [ ! -f /etc/config/monlor ]; then
+			cp -rf "$monlorpath"/config/monlor.uci /etc/config/monlor 
+		fi
+		uci set monlor.tools.userdisk="$userdisk"
+		uci set monlor.tools.path="$monlorpath"
+		uci commit monlor
 	fi
-	if [ ! -f /etc/config/monlor ]; then
-		cp -rf "$monlorpath"/config/monlor.uci /etc/config/monlor 
-	fi
-	uci set monlor.tools.userdisk="$userdisk"
-	uci set monlor.tools.path="$monlorpath"
-	uci commit monlor
-fi
+}
+initpath
 [ ! -d "$monlorpath" ] && logger -s -p 1 -t "【Tools】" "未找到工具箱文件！" && exit
 
 source "$monlorpath"/scripts/base.sh || exit
@@ -112,9 +115,9 @@ if [ "$ins_method" == '0' ]; then
 		logsh "【Tools】" "内存安装，正在恢复数据..."
 		mkdir -p /tmp/monlorapps > /dev/null 2>&1
 		mount --bind /tmp/monlorapps $monlorpath/apps
-		sleep 60
+		sleep 10
 		$monlorpath/scripts/monlor recover
-		[ $? -ne 0 ] && logsh "【Tools】" "内存安装恢复数据失败！"
+		[ $? -eq 0 ] && initpath || logsh "【Tools】" "内存安装恢复数据失败！"
 	fi
 fi
 
