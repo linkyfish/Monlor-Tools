@@ -48,6 +48,7 @@ pack() {
 		do
 			cp apps/$line/config/version.txt version/$line.txt
 		done
+		cp config/version.txt version/tools.txt
 		tar -zcvf version.tar.gz version/
 		rm -rf version/
 		rm -rf monlor/

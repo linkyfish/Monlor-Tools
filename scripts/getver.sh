@@ -13,16 +13,10 @@ if [ $? -ne 0 ]; then
 	wgetsh $monlorpath/config/applist.txt $monlorurl/config/"$applist"
 	[ $? -ne 0 ] && logsh "【Tools】" "获取失败，检查网络问题！"
 fi
-
-logger -s -t "【Tools】" "获取插件版本信息"
-[ ! -d /tmp/version ] && mkdir -p /tmp/version
-wgetsh /tmp/version/tools.txt $monlorurl/config/version.txt
-[ $? -ne 0 ] && logsh "【Tools】" "获取工具箱版本信息失败！请稍后再试"
-cat $monlorpath/config/applist.txt | while read line
-do
-	[ -z $line ] && continue
-	wgetsh /tmp/version/$line.txt $monlorurl/apps/$line/config/version.txt
-	if [ $? -ne 0 ]; then
-		logsh "【Tools】" "获取【$line】版本号信息失败！请稍后再试"
-	fi
-done
+logger -s -t "【Tools】" "获取工具箱版本信息"
+rm -rf /tmp/version
+rm -rf /tmp/version.tar.gz
+wgetsh /tmp/version.tar.gz $monlorurl/version.tar.gz
+[ $? -ne 0 ] && logsh "【Tools】" "获取版本号信息失败！请稍后再试"
+tar -zxvf /tmp/version.tar.gz -C /tmp > /dev/null 2>&1
+rm -rf /tmp/version.tar.gz
