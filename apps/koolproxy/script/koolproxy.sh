@@ -254,11 +254,9 @@ status() {
         esac
         rules=$monlorpath/apps/$appname/bin/data/rules/koolproxy.txt
         rulesdate=$(cat $rules | grep "update\[rules\]" | awk '{print$3" "$4}') > /dev/null 2>&1
-        videodate=$(cat $rules | grep "update\[video\]" | awk '{print$3}') > /dev/null 2>&1
         [ -z "$rulesdate" ] && rulesdate="更新中"
-        [ -z "$videodate" ] && videodate="更新中"
-        kp_ver=$($monlorpath/apps/$appname/bin/$appname -v)
-        echo "模式: $flag, 版本: $kp_ver, 规则: $rulesdate"
+        # kp_ver=$($monlorpath/apps/$appname/bin/$appname -v)
+        echo "运行模式: $flag, 规则: $rulesdate"
         echo "1"
     fi
 

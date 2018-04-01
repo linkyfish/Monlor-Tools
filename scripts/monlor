@@ -182,7 +182,11 @@ menu() {
 	do
 		if [ ! -z $line ]; then
 			let i=$i+1
-			echo "$i. $line`check_install $line``check_update $line`"
+                        args="\t"
+                        head="$i. $line"
+                        [ "${#head}" -lt 8 ] && args="\t\t"
+                        [ "${#head}" -eq 16 ] && args=""
+                        echo -e "$head$args`check_install $line` `check_update $line`"
 		fi
 	done
 	echo

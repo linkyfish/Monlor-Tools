@@ -412,12 +412,12 @@ status() {
 	#http_status=`curl  -s -w %{http_code} https://www.google.com.hk/images/branding/googlelogo/1x/googlelogo_color_116x41dp.png -k -o /dev/null --socks5 127.0.0.1:1082`
 	#if [ "$result" == '0' ] || [ "$http_status" != "200" ]; then
 	if [ "$ssg_enable" == 1 ]; then
-		ssgflag=", ss游戏节点: $ssgid($ssg_mode)"
+		ssgflag=", 游戏节点: $ssgid($ssg_mode)"
 	fi
 	result2=$(iptables -t nat -S | grep -c SHADOWSOCK)
 	if [ "$result1" -ge 3 ]; then
 		if [ "$result2" -ge 10 ]; then
-			echo "ss节点: $id($ss_mode)$ssgflag" 
+			echo "节点: $id($ss_mode)$ssgflag" 
 			echo "1"
 		else
 			echo "ss链路异常，可以尝试重启服务！"

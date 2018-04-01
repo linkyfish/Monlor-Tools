@@ -99,9 +99,7 @@ status() {
 		echo "未运行"
 		echo "0"
 	else
-		[ ! -z $user ] && flag1=", 用户名: $user"
-		flag2=", 下载路径: $path"
-		echo "运行端口号: $port$flag1$flag2"
+		echo "运行端口号: $port"
 		echo "1"
 	fi
 
