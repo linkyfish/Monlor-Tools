@@ -176,7 +176,7 @@ menu() {
 	do
 	title
 	[ ! -f "$Applist".txt ] && echo "[未找到插件列表，工具箱异常！]" && exit
-	echo "0. 管理菜单(Ctrl + c退出)"
+	echo "00. 管理菜单(Ctrl + c退出)"
 	i=0;
 	cat $Applist* | while read line
 	do
