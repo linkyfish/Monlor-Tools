@@ -11,6 +11,6 @@ e5b3e6698a16b0bbe7683902e639fcaa *./webshell.tar.gz
 418352f9b352c46fc12ee0d6c2e06af0 *./entware.tar.gz
 75bc2edde04d60c3804dfa83db1f2975 *./vsftpd.tar.gz
 0c507deb0ae8c7101ae2419428c58c42 *./easyexplorer.tar.gz
-d07bcf3dab895fa138eb3617a673850b *./shadowsocks.tar.gz
 1b3cfac7531ab19a30fdf73a59873f98 *./koolproxy.tar.gz
 d13a3a844906ad263cdf1008cfd04b97 *./aria2.tar.gz
+d40cd774b199ab6444aa39eb89783660 *./shadowsocks.tar.gz

@@ -417,7 +417,7 @@ status() {
 	result2=$(iptables -t nat -S | grep -c SHADOWSOCK)
 	if [ "$result1" -ge 3 ]; then
 		if [ "$result2" -ge 10 ]; then
-			echo "节点: $id($ss_mode)$ssgflag" 
+			echo "运行节点: $id($ss_mode)$ssgflag" 
 			echo "1"
 		else
 			echo "ss链路异常，可以尝试重启服务！"
