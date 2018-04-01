@@ -241,12 +241,11 @@ check_install() {
 	if checkuci $1; then
 		status=$($monlorpath/apps/$1/script/$1.sh status) > /dev/null 2>&1
 		if [ ! -z "$status" ]; then
-			if [ "`echo $status | tail -1`" == '1' ]; then
-				status=$(echo $status | head -1)
-				echo -n "[\033[32m$status\033[0m]" 
+			statustext=$(echo $status | cut -d' ' -f1)
+			if [ "`echo $status | cut -d' ' -f2`" == '1' ]; then
+				echo -n "[\033[32m$statustext\033[0m]" 
 			else
-				status=$(echo $status | head -1)
-				echo -n "[\033[31m$status\033[0m]" 
+				echo -n "[\033[31m$statustext\033[0m]" 
 			fi
 		else
 			echo -n "[\033[31m脚本异常\033[0m]"
