@@ -190,7 +190,7 @@ menu() {
 		fi
 	done
 	echo
-	compare $newver $oldver && tmptext="[输入u更新工具箱]"
+	compare $newver $oldver && tmptext="[\033[36m输入u更新工具箱\033[0m]"
 	read -p "请输入你的选择$tmptext：" select
 	echo
 	[ "$select" == "exit" ] && exit
