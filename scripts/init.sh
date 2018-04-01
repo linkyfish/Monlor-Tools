@@ -55,9 +55,9 @@ result=$(cat /etc/profile | grep -c TERM)
 [ "$result" == '0' ] && echo "export TERM=xterm #monlor-tools" >> /etc/profile
 
 logsh "【Tools】" "检查定时任务配置"
-cru a monitor "* * * * * $monlorpath/scripts/monitor.sh "
-cru a dayjob "30 5 * * * $monlorpath/scripts/dayjob.sh " 
-cru a getver "*/20 * * * * $monlorpath/scripts/getver.sh"
+cru a monitor "* * * * * $monlorpath/scripts/monitor.sh"
+cru a dayjob "30 5 * * * $monlorpath/scripts/dayjob.sh" 
+cru a getver "*/10 * * * * $monlorpath/scripts/getver.sh"
 
 logsh "【Tools】" "检查工具箱开机启动配置"
 result=$(cat /etc/firewall.user | grep init.sh | wc -l) > /dev/null 2>&1
@@ -114,7 +114,7 @@ if [ "$ins_method" == '0' ]; then
 	if [ ! -d /tmp/monlorapps ]; then
 		mkdir -p /tmp/monlorapps > /dev/null 2>&1
 		mount --bind /tmp/monlorapps $monlorpath/apps
-		sleep 8
+		sleep 5
 		$monlorpath/scripts/monlor recover > /dev/null 2>&1
 		uci -q set monlor.tools.ins_method=0
 		[ $? -eq 0 ] && initpath 

@@ -20,7 +20,7 @@ PHPCONF=/opt/etc/php.ini
 WWW=/opt/share/nginx/html
 CONF="/opt/etc/nginx/vhost/kodexplorer.conf"
 LOG=/var/log/$appname.log
-path=$(uci -q get monlor.$appname.path) 
+path=$(uci -q get monlor.$appname.path) || path="$userdisk"
 port=$(uci -q get monlor.$appname.port) || port=81
 lanip=$(uci get network.lan.ipaddr)
 opkg_list="php7-cgi php7-mod-curl php7-mod-gd php7-mod-iconv php7-mod-json php7-mod-mbstring php7-mod-opcache php7-mod-session php7-mod-zip nginx spawn-fcgi zoneinfo-core zoneinfo-asia"
